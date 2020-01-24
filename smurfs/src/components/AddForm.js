@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
+import { connect } from 'react-redux';
+import { addSmurf } from '../actions';
 
-const AddForm = () => {
+const AddForm = (props) => {
+    const { addSmurf } = props;
+
     const [value, setValue] = useState({
         name: '',
         age: '',
@@ -9,10 +13,12 @@ const AddForm = () => {
     
     const [smurf, setSmurf] = useState({});
 
+    //handles change dynamically
     const handleChange = (name, e) => {
         setValue({...value, [name]: e.target.value});
     }
 
+    //handles submit when a new smurf is created
     const handleSubmit = (e) => {
         e.preventDefault();
         const newSmurf = {
@@ -20,7 +26,8 @@ const AddForm = () => {
             age: value.age,
             height: value.height
         }
-        console.log(newSmurf);
+        addSmurf(newSmurf);
+        setValue({name: '', age: '', height: ''});
     }
 
     return (
@@ -59,4 +66,5 @@ const AddForm = () => {
     )
 }
 
-export default AddForm;
+const mapStateToProps = (state) => ({});
+export default connect(mapStateToProps, { addSmurf })(AddForm); 
