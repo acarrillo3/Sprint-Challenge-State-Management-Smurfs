@@ -5,7 +5,7 @@ import Card from "./Card";
 import AddForm from "./AddForm";
 
 const SmurfsList = props => {
-  const { smurfs } = props;
+  const { smurfs, isFetching, isadding } = props;
   // Fetch smurfs data on load.
   useEffect(() => {
     props.fetchSmurfs();
@@ -15,16 +15,19 @@ const SmurfsList = props => {
     <div className="smurfs-list">
       <h1>Register: </h1>
       <AddForm />
-      {smurfs.map(smurf => (
-        <Card key={smurf.id} smurf={smurf} />
-      ))}
+      {isFetching && <p className="loading">Getting smurfs...</p>}
+      {!isFetching &&
+        !isadding &&
+        smurfs.map(smurf => <Card key={smurf.id} smurf={smurf} />)}
     </div>
   );
 };
 
 const mapStateToProps = state => {
   return {
-    smurfs: state.smurfs
+    smurfs: state.smurfs,
+    isFetching: state.isFetching,
+    isadding: state.isAdding
   };
 };
 
